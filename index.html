@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +9,6 @@
   <title>2026 Tri-Agency Board Retreat</title>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -53,7 +53,7 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     }
 
-    h2 {
+    h2, h3 {
       color: #153b65;
     }
 
@@ -64,33 +64,106 @@
       margin: 20px auto;
     }
 
-    .button {
-      display: inline-block;
-      background: #153b65;
-      color: white;
-      padding: 15px 28px;
-      border-radius: 8px;
+    .info {
+      line-height: 1.8;
       font-size: 16px;
-      font-weight: bold;
-      margin-top: 15px;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .button:hover {
-      background: #24588e;
     }
 
     .note {
       color: #667085;
       font-size: 14px;
+      line-height: 1.6;
       margin-top: 20px;
     }
 
-    .info {
-      line-height: 1.8;
+    .lookup {
+      max-width: 500px;
+      margin: 25px auto;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 18px 0 8px;
+    }
+
+    select {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #bfcbd8;
+      border-radius: 8px;
+      background: white;
+      color: #263445;
       font-size: 16px;
+    }
+
+    select:disabled {
+      background: #eef1f5;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .schedule {
+      max-width: 650px;
+      margin: 30px auto 0;
+      text-align: left;
+    }
+
+    .schedule h3 {
+      margin-top: 28px;
+      margin-bottom: 12px;
+    }
+
+    .session-item {
+      background: #f7f9fc;
+      border-left: 4px solid #c9a34a;
+      border-radius: 6px;
+      padding: 16px;
+      margin: 12px 0;
+      line-height: 1.6;
+    }
+
+    .session-item strong {
+      color: #153b65;
+    }
+
+    .session-detail {
+      color: #566477;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .required-tag {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 9px;
+      border-radius: 5px;
+      background: #fff0ca;
+      color: #725000;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .notice {
+      background: #fff8e9;
+      border: 1px solid #e5c77b;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 24px 0;
+      line-height: 1.7;
+    }
+
+    .notice strong {
+      color: #153b65;
+    }
+
+    .lookup-status {
+      margin-top: 15px;
+      color: #667085;
+      font-size: 14px;
     }
 
     footer {
@@ -101,7 +174,6 @@
     }
 
     @media (max-width: 600px) {
-
       header h1 {
         font-size: 26px;
       }
@@ -109,22 +181,14 @@
       .card {
         padding: 22px;
       }
-
     }
-
   </style>
-
 </head>
 
 <body>
 
-  <!-- HEADER -->
-
   <header>
-
-    <h1>
-      2026 Tri-Agency Board Retreat
-    </h1>
+    <h1>2026 Tri-Agency Board Retreat</h1>
 
     <p>
       St. Mary Community Action
@@ -133,22 +197,14 @@
       <br>
       Sheraton New Orleans Hotel
     </p>
-
   </header>
-
-
-  <!-- MAIN CONTENT -->
 
   <main>
 
-    <!-- WELCOME SECTION -->
+    <!-- WELCOME -->
 
     <section class="card">
-
-      <h2>
-        Welcome to the Retreat!
-      </h2>
-
+      <h2>Welcome to the Retreat!</h2>
       <div class="gold-line"></div>
 
       <p class="info">
@@ -161,53 +217,36 @@
         focused on leadership, professional
         development, and organizational excellence.
       </p>
-
     </section>
-
 
     <!-- RETREAT INFORMATION -->
 
     <section class="card">
-
-      <h2>
-        Retreat Information
-      </h2>
-
+      <h2>Retreat Information</h2>
       <div class="gold-line"></div>
 
       <p class="info">
-
         <strong>Event:</strong>
         2026 Tri-Agency Board Retreat
-
         <br>
 
         <strong>Dates:</strong>
         October 28–30, 2026
-
         <br>
 
         <strong>Location:</strong>
         Sheraton New Orleans Hotel
-
         <br>
 
         <strong>Host:</strong>
         St. Mary Community Action
-
       </p>
-
     </section>
-
 
     <!-- WORKSHOP INFORMATION -->
 
     <section class="card">
-
-      <h2>
-        Workshops & Sessions
-      </h2>
-
+      <h2>Workshops &amp; Sessions</h2>
       <div class="gold-line"></div>
 
       <p class="info">
@@ -224,118 +263,507 @@
 
       <p class="note">
         Please scan the QR code provided
-        at your workshop to complete check-in.
+        at each session to complete check-in.
       </p>
-
     </section>
 
-
-    <!-- PARTICIPANT INFORMATION -->
+    <!-- PARTICIPANT SCHEDULE LOOKUP -->
 
     <section class="card">
-
-      <h2>
-        Participant Information
-      </h2>
-
+      <h2>Participant Information</h2>
       <div class="gold-line"></div>
 
       <p class="info">
-        Registered participants will have
-        access to their assigned workshop
-        schedules and retreat resources
-        as these features become available.
+        Select your agency and name to view
+        your required sessions and assigned workshops.
       </p>
 
-      <p class="note">
-        Additional retreat features
-        are currently being prepared.
-      </p>
+      <div class="lookup">
 
+        <label for="agency">Select Your Agency</label>
+
+        <select id="agency" disabled>
+          <option value="">Loading agencies...</option>
+        </select>
+
+        <label for="participant">Select Your Name</label>
+
+        <select id="participant" disabled>
+          <option value="">Select an agency first</option>
+        </select>
+
+        <p
+          id="lookup-status"
+          class="lookup-status"
+          role="status">
+        </p>
+
+      </div>
+
+      <div id="schedule" class="schedule hidden">
+
+        <h3 id="welcome-name"></h3>
+
+        <!-- REQUIRED SESSIONS -->
+
+        <div id="required-section">
+          <h3>Required Sessions — All Participants</h3>
+
+          <p class="note">
+            Attendance is required for all
+            four sessions listed below.
+          </p>
+
+          <div id="required-list"></div>
+        </div>
+
+        <!-- ASSIGNED BREAKOUTS -->
+
+        <div id="breakout-section">
+          <h3>Your Assigned Breakout Workshops</h3>
+
+          <div id="breakout-list"></div>
+        </div>
+
+        <!-- NO BREAKOUT ASSIGNMENTS -->
+
+        <div
+          id="unassigned-notice"
+          class="notice hidden">
+
+          <strong>
+            Action Required: Confirm Your Breakout Assignments
+          </strong>
+
+          <p>
+            You are required to attend all four
+            mandatory retreat sessions listed above.
+          </p>
+
+          <p>
+            Your breakout workshop assignments
+            have not yet been confirmed.
+            Please report to an event organizer
+            upon arrival to confirm which breakout
+            sessions you are expected to attend.
+          </p>
+
+          <p>
+            <strong>
+              You must still check in at every
+              session you attend.
+            </strong>
+          </p>
+
+          <p>
+            Scan the QR code provided at the session.
+            If your name does not appear on the
+            check-in list, select
+            <strong>Enter My Name</strong>
+            and complete your check-in.
+          </p>
+
+        </div>
+
+        <p class="note">
+          Your schedule reflects the latest
+          available retreat assignments.
+          Please contact an event organizer
+          if you have questions or need changes.
+        </p>
+
+      </div>
     </section>
 
-
-    <!-- DATABASE CONNECTION STATUS -->
+    <!-- SYSTEM STATUS -->
 
     <section class="card">
-
-      <h2>
-        Retreat System Status
-      </h2>
-
+      <h2>Retreat System Status</h2>
       <div class="gold-line"></div>
 
       <p id="connection-status">
         Checking workshop database connection...
       </p>
-
     </section>
 
   </main>
 
-
-  <!-- FOOTER -->
-
   <footer>
-
     St. Mary Community Action
-
     <br>
-
     2026 Tri-Agency Board Retreat
-
     <br><br>
-
     October 28–30, 2026
-
   </footer>
 
-
-  <!-- DATABASE CONNECTION SCRIPT -->
-
   <script>
+    'use strict';
 
     const API_URL =
       'https://script.google.com/macros/s/AKfycbzrexuBxfpv_LLaIUYoGPN4DtW2C_xayle8vWoLAq-lrpK7Af3qBdT4O_wfCO8JawPr/exec';
 
-    async function testDatabaseConnection() {
+    /*
+      Confirmed mandatory sessions:
+      S001 - Professional Development
+      S002 - Trauma In The Workplace
+      S009 - ELOGICS / Q&A Luncheon
+      S014 - Fellowship Breakfast
+    */
 
-      const status =
-        document.getElementById('connection-status');
+    const REQUIRED_SESSION_IDS = [
+      'S001',
+      'S002',
+      'S009',
+      'S014'
+    ];
 
-      try {
+    let participants = [];
+    let sessions = [];
+    let assignments = [];
 
-        const response = await fetch(
-          API_URL + '?action=sessions'
-        );
+    const agencySelect =
+      document.getElementById('agency');
 
-        const result = await response.json();
+    const participantSelect =
+      document.getElementById('participant');
 
-        if (result.success && Array.isArray(result.data)) {
+    const lookupStatus =
+      document.getElementById('lookup-status');
 
-          status.textContent =
-            'Retreat system connected successfully.';
+    const schedule =
+      document.getElementById('schedule');
 
-        } else {
-
-          status.textContent =
-            'Retreat system is temporarily unavailable.';
-
-        }
-
-      } catch (error) {
-
-        status.textContent =
-          'Unable to connect to the retreat system.';
-
-      }
-
+    function fullName(person) {
+      return [
+        person.FirstName,
+        person.LastName
+      ].filter(Boolean).join(' ').trim();
     }
 
-    testDatabaseConnection();
+    function formatDate(value) {
+      if (!value) {
+        return 'Date to be confirmed';
+      }
 
+      const raw = String(value);
+      const match = raw.slice(0, 10).match(
+        /^(\d{4})-(\d{2})-(\d{2})$/
+      );
+
+      if (!match) {
+        return raw;
+      }
+
+      const year = Number(match[1]);
+      const month = Number(match[2]);
+      const day = Number(match[3]);
+
+      return new Intl.DateTimeFormat('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        timeZone: 'UTC'
+      }).format(
+        new Date(Date.UTC(year, month - 1, day))
+      );
+    }
+
+    function formatTime(value) {
+      if (!value) return '';
+
+      const raw = String(value);
+
+      const isoMatch = raw.match(
+        /T(\d{2}):(\d{2})/
+      );
+
+      const plainMatch = raw.match(
+        /^(\d{1,2}):(\d{2})/
+      );
+
+      const match = isoMatch || plainMatch;
+
+      if (!match) return raw;
+
+      let hour = Number(match[1]);
+      const minute = match[2];
+
+      const period = hour >= 12 ? 'PM' : 'AM';
+
+      hour = hour % 12 || 12;
+
+      return hour + ':' + minute + ' ' + period;
+    }
+
+    function sessionDescription(item) {
+      const parts = [];
+
+      if (item.Date) {
+        parts.push(formatDate(item.Date));
+      }
+
+      if (item.StartTime) {
+        let time = formatTime(item.StartTime);
+
+        if (item.EndTime) {
+          time += ' – ' + formatTime(item.EndTime);
+        }
+
+        parts.push(time);
+      }
+
+      if (item.Room) {
+        parts.push('Room: ' + item.Room);
+      }
+
+      return parts.join(' | ');
+    }
+
+    function addSession(container, item, required) {
+      const card = document.createElement('div');
+      card.className = 'session-item';
+
+      const title = document.createElement('strong');
+
+      title.textContent =
+        item.SessionName || item.SessionID;
+
+      card.appendChild(title);
+
+      const details = sessionDescription(item);
+
+      if (details) {
+        const info = document.createElement('div');
+
+        info.className = 'session-detail';
+        info.textContent = details;
+
+        card.appendChild(info);
+      }
+
+      if (required) {
+        const tag = document.createElement('span');
+
+        tag.className = 'required-tag';
+        tag.textContent = 'REQUIRED';
+
+        card.appendChild(tag);
+      }
+
+      container.appendChild(card);
+    }
+
+    async function fetchRecords(action) {
+      const response = await fetch(
+        API_URL + '?action=' +
+        encodeURIComponent(action)
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          'Unable to contact the retreat system.'
+        );
+      }
+
+      const result = await response.json();
+
+      if (
+        !result.success ||
+        !Array.isArray(result.data)
+      ) {
+        throw new Error(
+          'Unable to load ' + action + '.'
+        );
+      }
+
+      return result.data;
+    }
+
+    function populateAgencies() {
+      const agencies = [...new Set(
+        participants.map(person =>
+          String(person.Agency || '').trim()
+        ).filter(Boolean)
+      )].sort();
+
+      agencySelect.replaceChildren(
+        new Option('Choose your agency', '')
+      );
+
+      agencies.forEach(agency => {
+        agencySelect.add(
+          new Option(agency, agency)
+        );
+      });
+
+      agencySelect.disabled = false;
+    }
+
+    function populateParticipants() {
+      const agency = agencySelect.value;
+
+      schedule.classList.add('hidden');
+
+      participantSelect.replaceChildren(
+        new Option(
+          agency
+            ? 'Choose your name'
+            : 'Select an agency first',
+          ''
+        )
+      );
+
+      if (!agency) {
+        participantSelect.disabled = true;
+        return;
+      }
+
+      const people = participants
+        .filter(person =>
+          String(person.Agency) === agency
+        )
+        .sort((a, b) =>
+          fullName(a).localeCompare(fullName(b))
+        );
+
+      people.forEach(person => {
+        participantSelect.add(
+          new Option(
+            fullName(person),
+            String(person.ParticipantID)
+          )
+        );
+      });
+
+      participantSelect.disabled = false;
+    }
+
+    function showSchedule() {
+      const participantId = participantSelect.value;
+
+      schedule.classList.add('hidden');
+
+      if (!participantId) return;
+
+      const person = participants.find(
+        item =>
+          String(item.ParticipantID) === participantId
+      );
+
+      if (!person) return;
+
+      document.getElementById(
+        'welcome-name'
+      ).textContent =
+        'Welcome, ' + fullName(person) + '!';
+
+      const assignedIds = new Set(
+        assignments
+          .filter(item =>
+            String(item.ParticipantID) === participantId
+          )
+          .map(item => String(item.SessionID))
+      );
+
+      const requiredIds =
+        new Set(REQUIRED_SESSION_IDS);
+
+      const requiredSessions = sessions.filter(
+        item =>
+          requiredIds.has(String(item.SessionID))
+      );
+
+      const breakoutSessions = sessions.filter(
+        item =>
+          assignedIds.has(String(item.SessionID)) &&
+          !requiredIds.has(String(item.SessionID))
+      );
+
+      const requiredList =
+        document.getElementById('required-list');
+
+      const breakoutList =
+        document.getElementById('breakout-list');
+
+      const breakoutSection =
+        document.getElementById('breakout-section');
+
+      const unassignedNotice =
+        document.getElementById('unassigned-notice');
+
+      requiredList.replaceChildren();
+      breakoutList.replaceChildren();
+
+      requiredSessions.forEach(item => {
+        addSession(requiredList, item, true);
+      });
+
+      breakoutSessions.forEach(item => {
+        addSession(breakoutList, item, false);
+      });
+
+      if (breakoutSessions.length === 0) {
+        breakoutSection.classList.add('hidden');
+
+        unassignedNotice.classList.remove('hidden');
+      } else {
+        breakoutSection.classList.remove('hidden');
+
+        unassignedNotice.classList.add('hidden');
+      }
+
+      schedule.classList.remove('hidden');
+    }
+
+    async function initialize() {
+      const connectionStatus =
+        document.getElementById(
+          'connection-status'
+        );
+
+      lookupStatus.textContent =
+        'Loading participant information...';
+
+      try {
+        const results = await Promise.all([
+          fetchRecords('participants'),
+          fetchRecords('sessions'),
+          fetchRecords('assignments')
+        ]);
+
+        participants = results[0];
+        sessions = results[1];
+        assignments = results[2];
+
+        populateAgencies();
+
+        connectionStatus.textContent =
+          'Retreat system connected successfully.';
+
+        lookupStatus.textContent =
+          'Select your agency to begin.';
+
+      } catch (error) {
+        connectionStatus.textContent =
+          'Unable to connect to the retreat system.';
+
+        lookupStatus.textContent =
+          'Participant schedules are temporarily unavailable.';
+      }
+    }
+
+    agencySelect.addEventListener(
+      'change',
+      populateParticipants
+    );
+
+    participantSelect.addEventListener(
+      'change',
+      showSchedule
+    );
+
+    initialize();
   </script>
 
 </body>
-
 </html>
