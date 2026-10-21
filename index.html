@@ -121,6 +121,63 @@
       font-size: 14px;
     }
 
+    /* RETREAT RESOURCES */
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 25px;
+    }
+
+    .resource-link {
+      display: block;
+      padding: 24px 18px;
+      background: #f7f9fc;
+      border: 1px solid #dce3ec;
+      border-top: 4px solid #c9a34a;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #153b65;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .resource-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .resource-icon {
+      display: block;
+      font-size: 27px;
+      margin-bottom: 12px;
+    }
+
+    .resource-title {
+      display: block;
+      font-weight: bold;
+      font-size: 17px;
+      margin-bottom: 9px;
+    }
+
+    .resource-description {
+      display: block;
+      font-size: 13px;
+      color: #667085;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .resource-action {
+      display: inline-block;
+      background: #153b65;
+      color: white;
+      border-radius: 6px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
     /* PARTICIPANT LOOKUP */
 
     .lookup {
@@ -248,7 +305,8 @@
         padding: 22px;
       }
 
-      .program-grid {
+      .program-grid,
+      .resource-grid {
         grid-template-columns: 1fr;
       }
 
@@ -372,6 +430,70 @@
         session-specific QR codes.
         Please scan the QR code provided at
         each session to complete check-in.
+      </p>
+    </section>
+
+    <!-- RETREAT RESOURCES -->
+
+    <section class="card">
+      <h2>Retreat Resources</h2>
+      <div class="gold-line"></div>
+
+      <p class="program-intro">
+        Access the retreat materials below
+        to review the program and plan
+        your experience.
+      </p>
+
+      <div class="resource-grid">
+
+        <a
+          class="resource-link"
+          href="Retreat_At_A_Glance.pdf"
+          download
+        >
+          <span class="resource-icon">📄</span>
+
+          <span class="resource-title">
+            Retreat at a Glance
+          </span>
+
+          <span class="resource-description">
+            A convenient overview of the
+            retreat schedule and activities.
+          </span>
+
+          <span class="resource-action">
+            Download PDF ↓
+          </span>
+        </a>
+
+        <a
+          class="resource-link"
+          href="Final_Retreat_Agenda.pdf"
+          download
+        >
+          <span class="resource-icon">📋</span>
+
+          <span class="resource-title">
+            Final Retreat Agenda
+          </span>
+
+          <span class="resource-description">
+            Explore the detailed agenda,
+            sessions, and retreat activities.
+          </span>
+
+          <span class="resource-action">
+            Download PDF ↓
+          </span>
+        </a>
+
+      </div>
+
+      <p class="note">
+        These materials are available
+        for all retreat participants.
       </p>
     </section>
 
@@ -519,12 +641,10 @@
     ];
 
     /*
-      Google Sheets currently returns session
-      times as ISO timestamps six hours ahead
-      of the intended spreadsheet clock times.
-
-      This offset matches the session times
-      verified against the live website.
+      The current Apps Script deployment
+      returns spreadsheet time values as
+      ISO timestamps six hours ahead of
+      their intended displayed clock times.
     */
 
     const SHEET_TIME_OFFSET_HOURS = 6;
@@ -599,8 +719,8 @@
       const raw = String(value).trim();
 
       /*
-        Correct ISO timestamps returned by
-        the current Apps Script deployment.
+        Correct ISO timestamps returned
+        by the current Apps Script deployment.
       */
 
       if (/^\d{4}-\d{2}-\d{2}T/.test(raw)) {
@@ -618,8 +738,7 @@
       }
 
       /*
-        Plain time strings are already local
-        clock times and need no correction.
+        Plain time strings need no offset.
       */
 
       const plainMatch = raw.match(
