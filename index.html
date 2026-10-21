@@ -120,6 +120,25 @@
     St. Mary Community Action |
     2026 Tri-Agency Board Retreat
   </footer>
+<div id="connection-test" style="text-align:center; padding:20px;">
+  Testing workshop database connection...
+</div>
 
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycbzrexuBxfpv_LLaIUYoGPN4DtW2C_xayle8vWoLAq-lrpK7Af3qBdT4O_wfCO8JawPr/exec';
+
+  fetch(API_URL + '?action=sessions')
+    .then(response => response.json())
+    .then(result => {
+      document.getElementById('connection-test').textContent =
+        result.success
+          ? 'SUCCESS! Connected to ' + result.data.length + ' workshops.'
+          : 'Database returned an error.';
+    })
+    .catch(error => {
+      document.getElementById('connection-test').textContent =
+        'Connection failed: ' + error.message;
+    });
+</script>
 </body>
 </html>
