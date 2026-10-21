@@ -139,6 +139,86 @@
       document.getElementById('connection-test').textContent =
         'Connection failed: ' + error.message;
     });
+</script> <!-- WORKSHOP CHECK-IN INTERFACE -->
+<section id="workshop-checkin" class="card"
+  style="margin:25px auto; max-width:750px;">
+
+  <h2>Workshop Check-In</h2>
+
+  <p>Select a workshop to begin the check-in process.</p>
+
+  <label for="workshop-select">
+    <strong>Select Workshop:</strong>
+  </label>
+
+  <br><br>
+
+  <select id="workshop-select"
+    style="width:100%; padding:14px; border-radius:8px;">
+    <option value="">Loading workshops...</option>
+  </select>
+
+  <br><br>
+
+  <button type="button"
+    onclick="selectWorkshop()"
+    style="background:#153b65; color:white;
+    padding:15px 25px; border:none;
+    border-radius:8px; cursor:pointer;">
+    Continue to Check-In
+  </button>
+
+  <p id="workshop-message"></p>
+
+</section>
+
+<script>
+  async function loadWorkshops() {
+    const dropdown = document.getElementById('workshop-select');
+
+    try {
+      const response = await fetch(
+        'https://script.google.com/macros/s/AKfycbzrexuBxfpv_LLaIUYoGPN4DtW2C_xayle8vWoLAq-lrpK7Af3qBdT4O_wfCO8JawPr/exec?action=sessions'
+      );
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error('Unable to load workshops.');
+      }
+
+      dropdown.innerHTML =
+        '<option value="">Choose a workshop</option>';
+
+      result.data.forEach(session => {
+        const option = document.createElement('option');
+        option.value = session.SessionID;
+        option.textContent = session.SessionName;
+        dropdown.appendChild(option);
+      });
+
+    } catch (error) {
+      dropdown.innerHTML =
+        '<option value="">Unable to load workshops</option>';
+    }
+  }
+
+  function selectWorkshop() {
+    const dropdown = document.getElementById('workshop-select');
+    const message = document.getElementById('workshop-message');
+
+    if (!dropdown.value) {
+      message.textContent = 'Please select a workshop.';
+      return;
+    }
+
+    message.textContent =
+      'Workshop selected: ' +
+      dropdown.options[dropdown.selectedIndex].text +
+      '. Check-in functionality is being prepared.';
+  }
+
+  loadWorkshops();
 </script>
 </body>
 </html>
