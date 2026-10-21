@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshop Check-In | 2026 Tri-Agency Board Retreat</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f4f6f9;
+      color: #263445;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: #153b65;
+      color: white;
+      text-align: center;
+      padding: 32px 18px;
+      border-bottom: 6px solid #c9a34a;
+    }
+
+    header h1 {
+      font-size: 24px;
+      margin: 0 0 10px;
+    }
+
+    header p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 650px;
+      margin: 25px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 26px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    }
+
+    h2 {
+      color: #153b65;
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin: 22px 0 8px;
+      font-weight: bold;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: white;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 16px;
+      background: #153b65;
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .note {
+      color: #667085;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .hidden { display: none; }
+
+    #message {
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      color: #667085;
+      font-size: 12px;
+      padding: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>2026 Tri-Agency Board Retreat</h1>
+  <p>Workshop Check-In<br>October 28–30, 2026</p>
+</header>
+
+<main>
+  <section class="card">
+
+    <h2 id="workshop-name">Loading workshop...</h2>
+
+    <p class="note">
+      Please select your agency and find your name
+      to complete the check-in process.
+    </p>
+
+    <div id="checkin-form" class="hidden">
+
+      <label for="agency">Your Agency</label>
+      <select id="agency">
+        <option value="">Select your agency</option>
+      </select>
+
+      <label for="participant">Your Name</label>
+      <select id="participant" disabled>
+        <option value="">Select an agency first</option>
+      </select>
+
+      <label for="search">Can't find your name?</label>
+      <input
+        id="search"
+        type="search"
+        placeholder="Search all registered participants"
+      >
+
+      <p class="note">
+        If you weren't assigned to this workshop,
+        you can still select your name.
+      </p>
+
+      <button id="checkin-button" type="button" disabled>
+        Continue to Check-In
+      </button>
+
+    </div>
+
+    <p id="message" role="status" aria-live="polite"></p>
+
+  </section>
+</main>
+
+<footer>
+  St. Mary Community Action |
+  2026 Tri-Agency Board Retreat
+</footer>
+
+<script>
+  const API_URL =
+    'https://script.google.com/macros/s/AKfycbzrexuBxfpv_LLaIUYoGPN4DtW2C_xayle8vWoLAq-lrpK7Af3qBdT4O_wfCO8JawPr/exec';
+
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session');
+
+  let participants = [];
+  let assignments = [];
+  let currentSession = null;
+
+  const agencySelect = document.getElementById('agency');
+  const participantSelect = document.getElementById('participant');
+  const searchInput = document.getElementById('search');
+  const message = document.getElementById('message');
+  const button = document.getElementById('checkin-button');
+
+  async function getData(action) {
+    const response = await fetch(
+      API_URL + '?action=' + encodeURIComponent(action)
+    );
+
+    if (!response.ok) {
+      throw new Error('Database request failed.');
+    }
+
+    const result = await response.json();
+
+    if (!result.success || !Array.isArray(result.data)) {
+      throw new Error('Unable to load ' + action + '.');
+    }
+
+    return result.data;
+  }
+
+  function participantName(person) {
+    return (
+      String(person.FirstName || '') + ' ' +
+      String(person.LastName || '')
+    ).trim();
+  }
+
+  function populateParticipants() {
+    const agency = agencySelect.value;
+    const search = searchInput.value.trim().toLowerCase();
+
+    participantSelect.innerHTML = '';
+    participantSelect.add(new Option('Select your name', ''));
+
+    const assignedIds = new Set(
+      assignments
+        .filter(a => String(a.SessionID) === sessionId)
+        .map(a => String(a.ParticipantID))
+    );
+
+    const matches = participants
+      .filter(person => {
+        const matchesAgency =
+          !agency || String(person.Agency) === agency;
+
+        const matchesSearch =
+          !search ||
+          participantName(person).toLowerCase().includes(search);
+
+        return matchesAgency && matchesSearch;
+      })
+      .sort((a, b) => {
+        const aAssigned = assignedIds.has(String(a.ParticipantID));
+        const bAssigned = assignedIds.has(String(b.ParticipantID));
+
+        if (aAssigned !== bAssigned) {
+          return aAssigned ? -1 : 1;
+        }
+
+        return participantName(a).localeCompare(participantName(b));
+      });
+
+    matches.forEach(person => {
+      const assigned = assignedIds.has(String(person.ParticipantID));
+
+      const label =
+        participantName(person) +
+        (assigned ? ' — Assigned' : ' — Not assigned');
+
+      participantSelect.add(
+        new Option(label, String(person.ParticipantID))
+      );
+    });
+
+    participantSelect.disabled = matches.length === 0;
+    button.disabled = true;
+
+    if (matches.length === 0) {
+      message.textContent =
+        'No matching registered participants found.';
+    } else {
+      message.textContent = '';
+    }
+  }
+
+  async function initialize() {
+    if (!/^S\d{3}$/.test(sessionId || '')) {
+      document.getElementById('workshop-name').textContent =
+        'Workshop Link Required';
+
+      message.textContent =
+        'Please scan the QR code provided at your workshop.';
+      return;
+    }
+
+    try {
+      const [sessions, people, assigned] = await Promise.all([
+        getData('sessions'),
+        getData('participants'),
+        getData('assignments')
+      ]);
+
+      currentSession = sessions.find(
+        session => String(session.SessionID) === sessionId
+      );
+
+      if (!currentSession) {
+        throw new Error('This workshop was not found.');
+      }
+
+      participants = people;
+      assignments = assigned;
+
+      document.getElementById('workshop-name').textContent =
+        currentSession.SessionName;
+
+      const agencies = [...new Set(
+        participants
+          .map(person => String(person.Agency || '').trim())
+          .filter(Boolean)
+      )].sort();
+
+      agencies.forEach(agency => {
+        agencySelect.add(new Option(agency, agency));
+      });
+
+      document.getElementById('checkin-form')
+        .classList.remove('hidden');
+
+      message.textContent = '';
+
+    } catch (error) {
+      document.getElementById('workshop-name').textContent =
+        'Unable to Load Workshop';
+
+      message.textContent = error.message;
+    }
+  }
+
+  agencySelect.addEventListener('change', () => {
+    searchInput.value = '';
+    populateParticipants();
+  });
+
+  searchInput.addEventListener('input', () => {
+    if (searchInput.value.trim()) {
+      agencySelect.value = '';
+    }
+
+    populateParticipants();
+  });
+
+  participantSelect.addEventListener('change', () => {
+    button.disabled = !participantSelect.value;
+  });
+
+  button.addEventListener('click', () => {
+    if (!participantSelect.value || !currentSession) {
+      return;
+    }
+
+    const person = participants.find(
+      p => String(p.ParticipantID) === participantSelect.value
+    );
+
+    message.textContent =
+      'Selected: ' + participantName(person) +
+      ' for ' + currentSession.SessionName +
+      '. Attendance submission will be enabled after testing.';
+  });
+
+  initialize();
+</script>
+
+</body>
+</html>
