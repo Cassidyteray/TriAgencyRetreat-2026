@@ -1,11 +1,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>2026 Tri-Agency Board Retreat</title>
 
   <style>
@@ -20,21 +18,74 @@
       color: #263445;
     }
 
+    /* NEW SKYLINE HEADER */
+
     header {
-      background: #153b65;
-      color: white;
+      position: relative;
+      min-height: 410px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 70px 24px;
       text-align: center;
-      padding: 55px 20px;
+      color: white;
+      background-color: #153b65;
+      background-image:
+        linear-gradient(
+          90deg,
+          rgba(9, 29, 54, 0.90),
+          rgba(15, 44, 77, 0.72),
+          rgba(9, 29, 54, 0.82)
+        ),
+        url("new-orleans-skyline.jpg");
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
       border-bottom: 6px solid #c9a34a;
     }
 
-    header h1 {
-      font-size: 32px;
-      margin-bottom: 12px;
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: auto;
     }
 
-    header p {
-      font-size: 17px;
+    .hero-eyebrow {
+      color: #e7c77d;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin: 0 0 22px;
+    }
+
+    .hero-title {
+      color: #ffffff;
+      font-size: clamp(34px, 5.5vw, 57px);
+      line-height: 1.15;
+      font-weight: 750;
+      letter-spacing: -1px;
+      margin: 0;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.22);
+    }
+
+    .hero-line {
+      width: 85px;
+      height: 4px;
+      background: #c9a34a;
+      margin: 26px auto;
+    }
+
+    .hero-date {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0 0 12px;
+    }
+
+    .hero-location {
+      font-size: 16px;
+      margin: 0;
       line-height: 1.6;
     }
 
@@ -270,7 +321,7 @@
       font-size: 14px;
     }
 
-    /* SMALL SYSTEM STATUS BOX */
+    /* SYSTEM STATUS */
 
     .system-status {
       max-width: 360px;
@@ -296,9 +347,31 @@
       font-size: 13px;
     }
 
+    /* MOBILE */
+
     @media (max-width: 600px) {
-      header h1 {
-        font-size: 26px;
+      header {
+        min-height: 380px;
+        padding: 60px 20px;
+        background-position: center center;
+      }
+
+      .hero-eyebrow {
+        font-size: 11px;
+        letter-spacing: 1.7px;
+      }
+
+      .hero-title {
+        font-size: 36px;
+        letter-spacing: -0.5px;
+      }
+
+      .hero-date {
+        font-size: 18px;
+      }
+
+      .hero-location {
+        font-size: 15px;
       }
 
       .card {
@@ -319,18 +392,29 @@
 
 <body>
 
-  <!-- HEADER -->
+  <!-- SKYLINE HEADER -->
 
   <header>
-    <h1>2026 Tri-Agency Board Retreat</h1>
+    <div class="hero-content">
+      <p class="hero-eyebrow">
+        St. Mary Community Action Presents
+      </p>
 
-    <p>
-      St. Mary Community Action
-      <br>
-      October 28–30, 2026
-      <br>
-      Sheraton New Orleans Hotel
-    </p>
+      <h1 class="hero-title">
+        2026 Tri-Agency<br>Board Retreat
+      </h1>
+
+      <div class="hero-line"></div>
+
+      <p class="hero-date">
+        October 28–30, 2026
+      </p>
+
+      <p class="hero-location">
+        Sheraton New Orleans Hotel<br>
+        New Orleans, Louisiana
+      </p>
+    </div>
   </header>
 
   <main>
@@ -363,21 +447,18 @@
         <strong>Event:</strong>
         2026 Tri-Agency Board Retreat
         <br>
-
         <strong>Dates:</strong>
         October 28–30, 2026
         <br>
-
         <strong>Location:</strong>
         Sheraton New Orleans Hotel
         <br>
-
         <strong>Host:</strong>
         St. Mary Community Action
       </p>
     </section>
 
-    <!-- RETREAT PROGRAM HIGHLIGHTS -->
+    <!-- PROGRAM HIGHLIGHTS -->
 
     <section class="card">
       <h2>Retreat Program Highlights</h2>
@@ -391,7 +472,6 @@
       </p>
 
       <div class="program-grid">
-
         <div class="program-item">
           <h3>Professional Development</h3>
           <p>Dr. Demetria Johnson-Weeks</p>
@@ -410,11 +490,9 @@
         <div class="program-item">
           <h3>Fellowship Breakfast</h3>
           <p>
-            DOTD &amp; Louisiana
-            Housing Corporation
+            DOTD &amp; Louisiana Housing Corporation
           </p>
         </div>
-
       </div>
 
       <p class="program-footer">
@@ -497,7 +575,7 @@
       </p>
     </section>
 
-    <!-- PARTICIPANT SCHEDULE LOOKUP -->
+    <!-- PARTICIPANT INFORMATION -->
 
     <section class="card">
       <h2>Participant Information</h2>
@@ -509,35 +587,40 @@
       </p>
 
       <div class="lookup">
-
-        <label for="agency">Select Your Agency</label>
+        <label for="agency">
+          Select Your Agency
+        </label>
 
         <select id="agency" disabled>
-          <option value="">Loading agencies...</option>
+          <option value="">
+            Loading agencies...
+          </option>
         </select>
 
-        <label for="participant">Select Your Name</label>
+        <label for="participant">
+          Select Your Name
+        </label>
 
         <select id="participant" disabled>
-          <option value="">Select an agency first</option>
+          <option value="">
+            Select an agency first
+          </option>
         </select>
 
         <p
           id="lookup-status"
           class="lookup-status"
-          role="status">
-        </p>
-
+          role="status"
+        ></p>
       </div>
 
       <div id="schedule" class="schedule hidden">
-
         <h3 id="welcome-name"></h3>
 
-        <!-- REQUIRED SESSIONS -->
-
         <div id="required-section">
-          <h3>Required Sessions — All Participants</h3>
+          <h3>
+            Required Sessions — All Participants
+          </h3>
 
           <p class="note">
             Attendance is required for all
@@ -547,20 +630,15 @@
           <div id="required-list"></div>
         </div>
 
-        <!-- ASSIGNED BREAKOUTS -->
-
         <div id="breakout-section">
           <h3>Your Assigned Breakout Workshops</h3>
-
           <div id="breakout-list"></div>
         </div>
 
-        <!-- ADDITIONAL WORKSHOP INFORMATION -->
-
         <div
           id="unassigned-notice"
-          class="notice hidden">
-
+          class="notice hidden"
+        >
           <strong>
             Additional Workshop Information
           </strong>
@@ -586,7 +664,6 @@
             and check in at every session
             you attend.
           </p>
-
         </div>
 
         <p class="note">
@@ -595,11 +672,10 @@
           Please contact an event organizer
           if you have questions or need changes.
         </p>
-
       </div>
     </section>
 
-    <!-- SMALL SYSTEM STATUS -->
+    <!-- CONNECTION STATUS -->
 
     <div class="system-status">
       <p id="connection-status">
@@ -608,8 +684,6 @@
     </div>
 
   </main>
-
-  <!-- FOOTER -->
 
   <footer>
     St. Mary Community Action
@@ -625,27 +699,12 @@
     const API_URL =
       'https://script.google.com/macros/s/AKfycbzrexuBxfpv_LLaIUYoGPN4DtW2C_xayle8vWoLAq-lrpK7Af3qBdT4O_wfCO8JawPr/exec';
 
-    /*
-      Mandatory sessions for all participants:
-      S001 - Professional Development
-      S002 - Trauma In The Workplace
-      S009 - ELOGICS
-      S014 - Fellowship Breakfast
-    */
-
     const REQUIRED_SESSION_IDS = [
       'S001',
       'S002',
       'S009',
       'S014'
     ];
-
-    /*
-      The current Apps Script deployment
-      returns spreadsheet time values as
-      ISO timestamps six hours ahead of
-      their intended displayed clock times.
-    */
 
     const SHEET_TIME_OFFSET_HOURS = 6;
 
@@ -718,10 +777,8 @@
 
       const raw = String(value).trim();
 
-      /*
-        Correct ISO timestamps returned
-        by the current Apps Script deployment.
-      */
+      // Preserve the previously verified
+      // spreadsheet time correction.
 
       if (/^\d{4}-\d{2}-\d{2}T/.test(raw)) {
         const date = new Date(raw);
@@ -731,29 +788,25 @@
             (date.getUTCHours() -
               SHEET_TIME_OFFSET_HOURS + 24) % 24;
 
-          const minutes = date.getUTCMinutes();
-
-          return displayClockTime(hours, minutes);
+          return displayClockTime(
+            hours,
+            date.getUTCMinutes()
+          );
         }
       }
 
-      /*
-        Plain time strings need no offset.
-      */
-
-      const plainMatch = raw.match(
+      const match = raw.match(
         /^(\d{1,2}):(\d{2})(?:\s*(AM|PM))?$/i
       );
 
-      if (plainMatch) {
-        let hours = Number(plainMatch[1]);
-        const minutes = Number(plainMatch[2]);
-        const period = plainMatch[3];
+      if (match) {
+        let hours = Number(match[1]);
+        const minutes = Number(match[2]);
 
-        if (period) {
+        if (match[3]) {
           hours = hours % 12;
 
-          if (period.toUpperCase() === 'PM') {
+          if (match[3].toUpperCase() === 'PM') {
             hours += 12;
           }
         }
@@ -793,7 +846,6 @@
       card.className = 'session-item';
 
       const title = document.createElement('strong');
-
       title.textContent =
         item.SessionName || item.SessionID;
 
@@ -803,19 +855,15 @@
 
       if (details) {
         const info = document.createElement('div');
-
         info.className = 'session-detail';
         info.textContent = details;
-
         card.appendChild(info);
       }
 
       if (required) {
         const tag = document.createElement('span');
-
         tag.className = 'required-tag';
         tag.textContent = 'REQUIRED';
-
         card.appendChild(tag);
       }
 
@@ -971,13 +1019,8 @@
         addSession(breakoutList, item, false);
       });
 
-      /*
-        Only participants with zero assignment
-        records see the additional-workshop notice.
-
-        Participants with mandatory-only
-        assignments do not see a warning.
-      */
+      // Show notice only when no assignment
+      // records exist for the participant.
 
       if (assignedIds.size === 0) {
         breakoutSection.classList.add('hidden');
@@ -1043,6 +1086,5 @@
 
     initialize();
   </script>
-
 </body>
 </html>
