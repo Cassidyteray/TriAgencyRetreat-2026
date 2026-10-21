@@ -76,6 +76,53 @@
       margin-top: 20px;
     }
 
+    /* PROGRAM HIGHLIGHTS */
+
+    .program-intro {
+      max-width: 650px;
+      margin: 0 auto 24px;
+      line-height: 1.7;
+      color: #566477;
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      text-align: left;
+      margin: 24px 0;
+    }
+
+    .program-item {
+      background: #f7f9fc;
+      border-left: 4px solid #c9a34a;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .program-item h3 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .program-item p {
+      margin: 0;
+      color: #667085;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .program-footer {
+      max-width: 650px;
+      margin: 22px auto 0;
+      color: #566477;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    /* PARTICIPANT LOOKUP */
+
     .lookup {
       max-width: 500px;
       margin: 25px auto;
@@ -200,11 +247,21 @@
       .card {
         padding: 22px;
       }
+
+      .program-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .program-item {
+        padding: 17px;
+      }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- HEADER -->
 
   <header>
     <h1>2026 Tri-Agency Board Retreat</h1>
@@ -262,27 +319,59 @@
       </p>
     </section>
 
-    <!-- WORKSHOP INFORMATION -->
+    <!-- RETREAT PROGRAM HIGHLIGHTS -->
 
     <section class="card">
-      <h2>Workshops &amp; Sessions</h2>
+      <h2>Retreat Program Highlights</h2>
       <div class="gold-line"></div>
 
-      <p class="info">
-        The retreat features professional
-        development opportunities, leadership
-        discussions, and collaborative sessions.
+      <p class="program-intro">
+        Explore engaging sessions focused on
+        professional development, leadership,
+        organizational effectiveness, and
+        community action.
       </p>
 
-      <p>
-        Workshop attendance will be recorded
-        through session-specific QR codes
-        provided during the retreat.
+      <div class="program-grid">
+
+        <div class="program-item">
+          <h3>Professional Development</h3>
+          <p>Dr. Demetria Johnson-Weeks</p>
+        </div>
+
+        <div class="program-item">
+          <h3>Trauma in the Workplace</h3>
+          <p>Brittaneè Davis</p>
+        </div>
+
+        <div class="program-item">
+          <h3>ELOGICS</h3>
+          <p>Tiffiny Whisenhunt</p>
+        </div>
+
+        <div class="program-item">
+          <h3>Fellowship Breakfast</h3>
+          <p>
+            DOTD &amp; Louisiana
+            Housing Corporation
+          </p>
+        </div>
+
+      </div>
+
+      <p class="program-footer">
+        These four sessions are required for
+        all retreat participants.
+        Additional workshops and individualized
+        schedules are available through the
+        participant lookup below.
       </p>
 
       <p class="note">
-        Please scan the QR code provided
-        at each session to complete check-in.
+        Attendance will be recorded through
+        session-specific QR codes.
+        Please scan the QR code provided at
+        each session to complete check-in.
       </p>
     </section>
 
@@ -398,6 +487,8 @@
 
   </main>
 
+  <!-- FOOTER -->
+
   <footer>
     St. Mary Community Action
     <br>
@@ -413,7 +504,7 @@
       'https://script.google.com/macros/s/AKfycbzrexuBxfpv_LLaIUYoGPN4DtW2C_xayle8vWoLAq-lrpK7Af3qBdT4O_wfCO8JawPr/exec';
 
     /*
-      Mandatory sessions:
+      Mandatory sessions for all participants:
       S001 - Professional Development
       S002 - Trauma In The Workplace
       S009 - ELOGICS
@@ -428,20 +519,12 @@
     ];
 
     /*
-      Google Sheets is returning times as
-      UTC timestamps six hours ahead of
-      their intended spreadsheet clock times.
+      Google Sheets currently returns session
+      times as ISO timestamps six hours ahead
+      of the intended spreadsheet clock times.
 
-      These timestamps represent spreadsheet
-      time values, not actual event instants.
-
-      We therefore recover the intended
-      spreadsheet clock time using the
-      observed six-hour serialization offset.
-
-      If Apps Script is later updated to
-      return formatted local time strings,
-      this correction will no longer apply.
+      This offset matches the session times
+      verified against the live website.
     */
 
     const SHEET_TIME_OFFSET_HOURS = 6;
@@ -497,23 +580,30 @@
       );
     }
 
+    function displayClockTime(hours, minutes) {
+      const period = hours >= 12 ? 'PM' : 'AM';
+      const displayHour = hours % 12 || 12;
+
+      return (
+        displayHour +
+        ':' +
+        String(minutes).padStart(2, '0') +
+        ' ' +
+        period
+      );
+    }
+
     function formatTime(value) {
       if (!value) return '';
 
       const raw = String(value).trim();
 
       /*
-        For ISO timestamps returned by Apps Script,
-        recover the spreadsheet's intended clock time
-        using the six-hour difference we verified.
-
-        Example:
-        21:15 UTC becomes 15:15 (3:15 PM).
+        Correct ISO timestamps returned by
+        the current Apps Script deployment.
       */
 
-      if (
-        /^\d{4}-\d{2}-\d{2}T/.test(raw)
-      ) {
+      if (/^\d{4}-\d{2}-\d{2}T/.test(raw)) {
         const date = new Date(raw);
 
         if (!Number.isNaN(date.getTime())) {
@@ -528,9 +618,8 @@
       }
 
       /*
-        If Apps Script already sends a plain
-        time such as 15:15 or 3:15 PM,
-        display it without any offset.
+        Plain time strings are already local
+        clock times and need no correction.
       */
 
       const plainMatch = raw.match(
@@ -554,19 +643,6 @@
       }
 
       return raw;
-    }
-
-    function displayClockTime(hours, minutes) {
-      const period = hours >= 12 ? 'PM' : 'AM';
-      const displayHour = hours % 12 || 12;
-
-      return (
-        displayHour +
-        ':' +
-        String(minutes).padStart(2, '0') +
-        ' ' +
-        period
-      );
     }
 
     function sessionDescription(item) {
@@ -777,12 +853,11 @@
       });
 
       /*
-        Participants with zero assignment records
-        see the additional-workshop notice.
+        Only participants with zero assignment
+        records see the additional-workshop notice.
 
-        Participants with any recorded assignments,
-        including mandatory sessions only,
-        do not see the warning.
+        Participants with mandatory-only
+        assignments do not see a warning.
       */
 
       if (assignedIds.size === 0) {
