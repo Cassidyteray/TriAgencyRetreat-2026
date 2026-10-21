@@ -166,6 +166,25 @@
       font-size: 14px;
     }
 
+    /* SMALL SYSTEM STATUS BOX */
+
+    .system-status {
+      max-width: 360px;
+      margin: 15px auto 25px;
+      padding: 10px 16px;
+      background: #ffffff;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .system-status p {
+      margin: 0;
+      font-size: 12px;
+      color: #667085;
+      line-height: 1.5;
+    }
+
     footer {
       text-align: center;
       padding: 30px 15px;
@@ -186,6 +205,8 @@
 </head>
 
 <body>
+
+  <!-- HEADER -->
 
   <header>
     <h1>2026 Tri-Agency Board Retreat</h1>
@@ -375,18 +396,17 @@
       </div>
     </section>
 
-    <!-- SYSTEM STATUS -->
+    <!-- SMALL SYSTEM STATUS -->
 
-    <section class="card">
-      <h2>Retreat System Status</h2>
-      <div class="gold-line"></div>
-
+    <div class="system-status">
       <p id="connection-status">
         Checking workshop database connection...
       </p>
-    </section>
+    </div>
 
   </main>
+
+  <!-- FOOTER -->
 
   <footer>
     St. Mary Community Action
