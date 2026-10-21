@@ -346,42 +346,36 @@
           <div id="breakout-list"></div>
         </div>
 
-        <!-- NO BREAKOUT ASSIGNMENTS -->
+        <!-- ADDITIONAL WORKSHOP INFORMATION -->
 
         <div
           id="unassigned-notice"
           class="notice hidden">
 
           <strong>
-            Action Required: Confirm Your Breakout Assignments
+            Additional Workshop Information
           </strong>
 
           <p>
-            You are required to attend all four
-            mandatory retreat sessions listed above.
+            Your attendance is required at the
+            four mandatory retreat sessions
+            listed above.
           </p>
 
           <p>
-            Your breakout workshop assignments
-            have not yet been confirmed.
-            Please report to an event organizer
-            upon arrival to confirm which breakout
-            sessions you are expected to attend.
+            Additional workshop assignments
+            have not been provided for you
+            at this time. Please check with
+            an event organizer upon arrival
+            to determine whether you are
+            expected to attend any
+            additional sessions.
           </p>
 
           <p>
-            <strong>
-              You must still check in at every
-              session you attend.
-            </strong>
-          </p>
-
-          <p>
-            Scan the QR code provided at the session.
-            If your name does not appear on the
-            check-in list, select
-            <strong>Enter My Name</strong>
-            and complete your check-in.
+            Remember to scan the QR code
+            and check in at every session
+            you attend.
           </p>
 
         </div>
@@ -423,10 +417,10 @@
       'https://script.google.com/macros/s/AKfycbzrexuBxfpv_LLaIUYoGPN4DtW2C_xayle8vWoLAq-lrpK7Af3qBdT4O_wfCO8JawPr/exec';
 
     /*
-      Confirmed mandatory sessions:
+      Mandatory sessions for all participants:
       S001 - Professional Development
       S002 - Trauma In The Workplace
-      S009 - ELOGICS / Q&A Luncheon
+      S009 - ELOGICS
       S014 - Fellowship Breakfast
     */
 
@@ -677,6 +671,18 @@
       ).textContent =
         'Welcome, ' + fullName(person) + '!';
 
+      /*
+        Every participant sees the four
+        mandatory sessions.
+
+        The additional-workshop notice appears
+        ONLY if the participant has zero
+        assignment records in Google Sheets.
+
+        Participants assigned only mandatory
+        sessions will NOT see the notice.
+      */
+
       const assignedIds = new Set(
         assignments
           .filter(item =>
@@ -722,12 +728,27 @@
         addSession(breakoutList, item, false);
       });
 
-      if (breakoutSessions.length === 0) {
-        breakoutSection.classList.add('hidden');
+      /*
+        Corrected assignment logic:
 
+        Zero assignment records:
+          Show additional-workshop notice.
+
+        One or more assignment records:
+          Hide notice.
+
+        No breakout sessions:
+          Hide empty breakout section.
+      */
+
+      if (assignedIds.size === 0) {
+        breakoutSection.classList.add('hidden');
         unassignedNotice.classList.remove('hidden');
       } else {
-        breakoutSection.classList.remove('hidden');
+        breakoutSection.classList.toggle(
+          'hidden',
+          breakoutSessions.length === 0
+        );
 
         unassignedNotice.classList.add('hidden');
       }
