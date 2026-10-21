@@ -206,8 +206,6 @@
 
 <body>
 
-  <!-- HEADER -->
-
   <header>
     <h1>2026 Tri-Agency Board Retreat</h1>
 
@@ -400,8 +398,6 @@
 
   </main>
 
-  <!-- FOOTER -->
-
   <footer>
     St. Mary Community Action
     <br>
@@ -417,7 +413,7 @@
       'https://script.google.com/macros/s/AKfycbzrexuBxfpv_LLaIUYoGPN4DtW2C_xayle8vWoLAq-lrpK7Af3qBdT4O_wfCO8JawPr/exec';
 
     /*
-      Mandatory sessions for all participants:
+      Mandatory sessions:
       S001 - Professional Development
       S002 - Trauma In The Workplace
       S009 - ELOGICS
@@ -430,6 +426,25 @@
       'S009',
       'S014'
     ];
+
+    /*
+      Google Sheets is returning times as
+      UTC timestamps six hours ahead of
+      their intended spreadsheet clock times.
+
+      These timestamps represent spreadsheet
+      time values, not actual event instants.
+
+      We therefore recover the intended
+      spreadsheet clock time using the
+      observed six-hour serialization offset.
+
+      If Apps Script is later updated to
+      return formatted local time strings,
+      this correction will no longer apply.
+    */
+
+    const SHEET_TIME_OFFSET_HOURS = 6;
 
     let participants = [];
     let sessions = [];
@@ -485,28 +500,73 @@
     function formatTime(value) {
       if (!value) return '';
 
-      const raw = String(value);
+      const raw = String(value).trim();
 
-      const isoMatch = raw.match(
-        /T(\d{2}):(\d{2})/
-      );
+      /*
+        For ISO timestamps returned by Apps Script,
+        recover the spreadsheet's intended clock time
+        using the six-hour difference we verified.
+
+        Example:
+        21:15 UTC becomes 15:15 (3:15 PM).
+      */
+
+      if (
+        /^\d{4}-\d{2}-\d{2}T/.test(raw)
+      ) {
+        const date = new Date(raw);
+
+        if (!Number.isNaN(date.getTime())) {
+          const hours =
+            (date.getUTCHours() -
+              SHEET_TIME_OFFSET_HOURS + 24) % 24;
+
+          const minutes = date.getUTCMinutes();
+
+          return displayClockTime(hours, minutes);
+        }
+      }
+
+      /*
+        If Apps Script already sends a plain
+        time such as 15:15 or 3:15 PM,
+        display it without any offset.
+      */
 
       const plainMatch = raw.match(
-        /^(\d{1,2}):(\d{2})/
+        /^(\d{1,2}):(\d{2})(?:\s*(AM|PM))?$/i
       );
 
-      const match = isoMatch || plainMatch;
+      if (plainMatch) {
+        let hours = Number(plainMatch[1]);
+        const minutes = Number(plainMatch[2]);
+        const period = plainMatch[3];
 
-      if (!match) return raw;
+        if (period) {
+          hours = hours % 12;
 
-      let hour = Number(match[1]);
-      const minute = match[2];
+          if (period.toUpperCase() === 'PM') {
+            hours += 12;
+          }
+        }
 
-      const period = hour >= 12 ? 'PM' : 'AM';
+        return displayClockTime(hours, minutes);
+      }
 
-      hour = hour % 12 || 12;
+      return raw;
+    }
 
-      return hour + ':' + minute + ' ' + period;
+    function displayClockTime(hours, minutes) {
+      const period = hours >= 12 ? 'PM' : 'AM';
+      const displayHour = hours % 12 || 12;
+
+      return (
+        displayHour +
+        ':' +
+        String(minutes).padStart(2, '0') +
+        ' ' +
+        period
+      );
     }
 
     function sessionDescription(item) {
@@ -671,18 +731,6 @@
       ).textContent =
         'Welcome, ' + fullName(person) + '!';
 
-      /*
-        Every participant sees the four
-        mandatory sessions.
-
-        The additional-workshop notice appears
-        ONLY if the participant has zero
-        assignment records in Google Sheets.
-
-        Participants assigned only mandatory
-        sessions will NOT see the notice.
-      */
-
       const assignedIds = new Set(
         assignments
           .filter(item =>
@@ -729,16 +777,12 @@
       });
 
       /*
-        Corrected assignment logic:
+        Participants with zero assignment records
+        see the additional-workshop notice.
 
-        Zero assignment records:
-          Show additional-workshop notice.
-
-        One or more assignment records:
-          Hide notice.
-
-        No breakout sessions:
-          Hide empty breakout section.
+        Participants with any recorded assignments,
+        including mandatory sessions only,
+        do not see the warning.
       */
 
       if (assignedIds.size === 0) {
