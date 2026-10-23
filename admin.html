@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Access | 2026 Tri-Agency Retreat</title>
+
+  <style>
+    :root {
+      --navy: #142b49;
+      --gold: #c6a052;
+      --light: #f5f7fa;
+      --white: #ffffff;
+      --gray: #657184;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: var(--light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .admin-card {
+      background: var(--white);
+      width: 100%;
+      max-width: 480px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+    }
+
+    .header {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: 32px 24px;
+      border-bottom: 5px solid var(--gold);
+    }
+
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: 25px;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    .content {
+      padding: 32px;
+    }
+
+    .warning {
+      background: #fff8e9;
+      border-left: 4px solid var(--gold);
+      padding: 16px;
+      border-radius: 6px;
+      color: #55431d;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: var(--navy);
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #cbd2dc;
+      border-radius: 8px;
+      font-size: 20px;
+      text-align: center;
+      letter-spacing: 6px;
+    }
+
+    input:focus {
+      outline: 2px solid var(--gold);
+      border-color: var(--gold);
+    }
+
+    button, .action-link {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: var(--navy);
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+
+    button:hover, .action-link:hover {
+      background: #24466d;
+    }
+
+    .error {
+      color: #b42318;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+      text-align: center;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 22px;
+      color: var(--gray);
+      text-decoration: none;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .success {
+      text-align: center;
+    }
+
+    .success h2 {
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .success p {
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    #dashboard {
+      display: none;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 18px;
+      border-top: 1px solid #e5e9ef;
+      font-size: 12px;
+      color: var(--gray);
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="admin-card">
+
+    <header class="header">
+      <h1>Retreat Administration</h1>
+      <p>2026 Tri-Agency Board Retreat</p>
+    </header>
+
+    <div class="content">
+
+      <!-- PIN LOGIN SCREEN -->
+      <section id="login">
+
+        <div class="warning">
+          <strong>Administrative Use Only</strong>
+          <p>
+            This is for administrative use only.
+            If you are not an administrator of this retreat,
+            please exit this screen.
+          </p>
+        </div>
+
+        <form id="pinForm">
+
+          <label for="adminPin">
+            Enter Administrative Access PIN
+          </label>
+
+          <input
+            type="password"
+            id="adminPin"
+            inputmode="numeric"
+            maxlength="4"
+            pattern="[0-9]{4}"
+            placeholder="••••"
+            autocomplete="off"
+            required
+          >
+
+          <p id="errorMessage" class="error" role="alert">
+            Incorrect PIN. Please try again.
+          </p>
+
+          <button type="submit">
+            Access Admin Resources
+          </button>
+
+        </form>
+
+        <a href="index.html" class="back-link">
+          ← Return to Retreat Website
+        </a>
+
+      </section>
+
+      <!-- ADMIN DASHBOARD -->
+      <section id="dashboard" class="success">
+
+        <h2>Welcome, Administrator</h2>
+
+        <p>
+          You may access the retreat's attendance records
+          using the link below.
+        </p>
+
+        <a
+          id="attendanceLink"
+          class="action-link"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View Attendance Records ↗
+        </a>
+
+        <a href="index.html" class="back-link">
+          ← Return to Retreat Website
+        </a>
+
+      </section>
+
+    </div>
+
+    <footer class="footer">
+      2026 Tri-Agency Board Retreat
+      <div>Administrative Resources</div>
+    </footer>
+
+  </main>
+
+  <script>
+    // Administrative access PIN
+    // Note: This is a convenience gate, not secure authentication.
+    const ADMIN_PIN = "3817";
+
+    // Replace this with the live Google Sheets sharing URL.
+    const ATTENDANCE_SHEET_URL = "PASTE_GOOGLE_SHEETS_LINK_HERE";
+
+    const pinForm = document.getElementById("pinForm");
+    const pinInput = document.getElementById("adminPin");
+    const errorMessage = document.getElementById("errorMessage");
+    const login = document.getElementById("login");
+    const dashboard = document.getElementById("dashboard");
+    const attendanceLink = document.getElementById("attendanceLink");
+
+    pinForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const enteredPin = pinInput.value.trim();
+
+      if (enteredPin === ADMIN_PIN) {
+        errorMessage.style.display = "none";
+        pinInput.value = "";
+
+        login.style.display = "none";
+        dashboard.style.display = "block";
+
+        if (ATTENDANCE_SHEET_URL.startsWith("https://")) {
+          attendanceLink.href = ATTENDANCE_SHEET_URL;
+        } else {
+          attendanceLink.removeAttribute("href");
+          attendanceLink.textContent =
+            "Attendance Link Not Yet Configured";
+          attendanceLink.style.opacity = "0.6";
+          attendanceLink.style.cursor = "not-allowed";
+        }
+
+      } else {
+        errorMessage.style.display = "block";
+        pinInput.value = "";
+        pinInput.focus();
+      }
+    });
+  </script>
+
+</body>
+</html>
